@@ -1,0 +1,116 @@
+import pandas as pd
+import numpy as np
+
+# Import necessary libraries: Pandas and NumPy are used for data manipulation.
+
+# Read the data from an Excel file.
+df_raw = pd.read_excel('/content/Raw Data.xlsx')
+
+# Display information about the DataFrame (e.g., column data types).
+df_raw.info()
+
+# Display summary statistics for the DataFrame.
+df_raw.describe()
+
+# Check for missing values and display the count of missing values in each column.
+df_raw.isnull().sum()
+
+# Display a random sample of 5 rows from the DataFrame.
+df_raw.sample(5)
+
+# Remove all columns with all missing values.
+df = df_raw.dropna(axis=1, how='all')
+
+# Drop rows containing any "NaT" (Not a Timestamp) values in any column.
+df = df.dropna(how='any')
+
+# Display the first few rows of the cleaned DataFrame.
+df.head()
+
+# Print the number of columns in the original dataset and cleaned dataset.
+print("Columns in original dataset: %d" % df_raw.shape[1])
+print("Columns with na's dropped: %d" % df.shape[1])
+
+# Check for duplicates in the "Order ID" column.
+duplicate_order_id = df['Order ID'].duplicated()
+
+# Print the rows where "Order ID" is duplicated.
+print("Duplicate Order IDs:")
+print(df[duplicate_order_id])
+
+# Remove rows with duplicated "Order ID," keeping the first occurrence.
+df = df.drop_duplicates(subset='Order ID', keep='first')
+
+# Check for duplicates in the "Order ID" column after removing duplicates.
+duplicate_order_id = df['Order ID'].duplicated()
+
+# Print the rows where "Order ID" is duplicated (should be empty).
+print("Duplicate Order IDs:")
+print(df[duplicate_order_id])
+
+# Check the data type of the "Quantity" column.
+print(df['Quantity'].dtype)  # Should be 'float64'
+
+# Convert the "Quantity" column to a numeric data type (float).
+df['Quantity'] = pd.to_numeric(df['Quantity'], errors='coerce')
+
+# Import data visualization libraries: Seaborn and Matplotlib.
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Create a box plot to visualize the distribution of the "Quantity" column.
+plt.figure(figsize=(8, 6))
+sns.boxplot(x='Quantity', data=df, color='skyblue')
+plt.xlabel('Quantity')
+plt.title('Box Plot for Quantity')
+plt.show()
+
+# Calculate the first quartile (Q1), third quartile (Q3), and interquartile range (IQR) for "Quantity."
+Q1 = df['Quantity'].quantile(0.25)
+Q3 = df['Quantity'].quantile(0.75)
+IQR = Q3 - Q1
+
+# Calculate lower and upper bounds for outlier detection.
+lower_bound = Q1 - 1.5 * IQR
+upper_bound = Q3 + 1.5 * IQR
+
+# Identify and display rows with outlier values in the "Quantity" column.
+outliers = df[(df['Quantity'] < lower_bound) | (df['Quantity'] > upper_bound)]
+outliers
+
+# Remove outliers from the DataFrame.
+df_no_outliers = df[~((df['Quantity'] < lower_bound) | (df['Quantity'] > upper_bound))
+
+# Check for missing values and duplicates in the cleaned DataFrame.
+missing_values = df.isnull().sum()
+duplicate_rows = df[df.duplicated()]
+
+# Display the count of missing values and any duplicate rows.
+print("Missing Values:")
+print(missing_values)
+print("\nDuplicate Rows:")
+print(duplicate_rows)
+
+# Data Scaling and Normalization
+from sklearn.preprocessing import MinMaxScaler
+
+# Create a Min-Max scaler.
+scaler = MinMaxScaler()
+
+# Select the columns you want to scale (numeric columns).
+numeric_columns = ['Quantity']
+
+# Apply the scaler to the selected columns to normalize the data.
+df[numeric_columns] = scaler.fit_transform(df[numeric_columns])
+
+# Display the first 10 rows of the DataFrame after normalization.
+df[numeric_columns].head(10)
+
+# Find the index of the missing quantity (should be 0, indicating no missing values).
+missing_quantity_index = df['Quantity'].isnull().idxmax()
+
+# Remove rows with any missing values from the DataFrame.
+df.dropna()
+
+# Display the DataFrame after removing rows with missing values.
+print(df)
