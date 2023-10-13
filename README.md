@@ -62,6 +62,3 @@ By following these steps, you'll have a well-prepared dataset ready for various 
 Please refer to the accompanying code for a detailed demonstration of each cleaning step with explanations and inferences.
 
 Enjoy the data cleaning process!
-
-[Link to the Data Cleaning Code](#https://github.com/SimrithaRA/PRODIGY_DS_2/blob/main/Code)
-
