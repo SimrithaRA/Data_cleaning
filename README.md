@@ -1,6 +1,6 @@
 # Data Cleaning Process
 
-Data cleaning is a crucial step in the data analysis workflow. It involves preparing a raw dataset by removing inconsistencies, errors, and irrelevant data. In this guide, we'll walk you through the steps for cleaning a sample supermarket sales dataset.
+Data cleaning is a crucial step in the data analysis workflow. It involves preparing a raw dataset by removing inconsistencies, errors, and irrelevant data. In this guide, we'll walk you through the steps for cleaning a sample supermarket sales dataset downloaded from kaggle.
 
 ## Step 1: Identifying and Removing Irrelevant Columns
 
